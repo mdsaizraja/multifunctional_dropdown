@@ -1,0 +1,34 @@
+
+[
+    { "id":1,
+        "name":"Dr. Siegfried Tausend",
+        "img":"/Users/mdraja/Desktop/dropdown/src/img/dr1.jpg"
+    },
+    { "id":2,
+        "name":"Tausend",
+        "img":"doc.png"
+    },
+    {
+        "id":3,
+        "name":"Dr. Siegfried Tausend",
+        "img":"doc.png"
+    }
+    , {
+        "id":4,
+        "name":"Siegfried Tausend",
+        "img":"doc.png"
+    }, {
+        "id":5,
+        "name":"Dr. Siegfried Tausend",
+        "img":"doc.png"
+    }, {
+        "id":6,
+        "name":"raja",
+        "img":"doc.png"
+    }, {
+        "id":7,
+        "name":"abc",
+        "img":"./doc.png"
+    }
+       
+]
