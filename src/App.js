@@ -1,5 +1,5 @@
-import * as React from "react";
 
+import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 
 import Select from "@mui/material/Select";
@@ -13,9 +13,9 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 
 import data from "./employee.json";
-import { useState, useMemo } from "react";
+
 import "./App.css";
-import { Grid, ListSubheader, Checkbox } from "@mui/material";
+import { Grid, Checkbox } from "@mui/material";
 import practi from "./practitioners.json";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -23,7 +23,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 export default function App() {
   const [selectedOption, setSelectedOption] = useState([]);
-  const [dateValue, setDateValue] = React.useState(null);
+  const [dateValue, setDateValue] = useState(null);
   const [result, setResult] = useState("")
 
   const [searchText, setSearchText] = useState("");
