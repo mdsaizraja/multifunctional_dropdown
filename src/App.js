@@ -28,8 +28,8 @@ export default function App() {
 
   const [searchText, setSearchText] = useState("");
 
-  const containsText = (text, searchText) =>
-    text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+  // const containsText = (text, searchText) =>
+  //   text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
   const handleChange = (event) => {
     console.log("ffffgg")
@@ -48,9 +48,9 @@ export default function App() {
     setSelectedOption(value);
   };
   const displayedOptions = (searchText)=>{
-   let filterResult = data.filter((option) => containsText(option?.name, searchText))
-
- setResult(filterResult)
+    let filterResult = data.filter((option) => option.name.toLowerCase().includes(searchText.toLowerCase()) ?  option.name : "")
+    setResult(filterResult)
+    console.log(filterResult)
 
   }
     
@@ -63,9 +63,16 @@ export default function App() {
     practi.length > 0 && selectedOption.length === practi.length;
 
     const handleSearch = (e) =>{
-      searchText= e.target.value;
-      setSearchText(searchText)
-      displayedOptions(searchText);
+      console.log(e.target.value)
+      // searchText= e.target.value;
+      if(e.target.value===""){
+        setSearchText("");
+        setResult("");
+      }else{
+        setSearchText(e.target.value)
+        displayedOptions(searchText);
+
+      }
     }
 
   return (
@@ -121,7 +128,7 @@ export default function App() {
                   />
                 </MenuItem>
                 {
-                result.length > 0 ? result.map((el)=><MenuItem key={el.id} value={el.name} >{el.name} </MenuItem>) : ""
+                result.length > 0 ? result.map((el)=><MenuItem key={el.id} value={el.name} >{result[0].name}</MenuItem>) : ""
               }
                 <MenuItem value="all">
                   {
