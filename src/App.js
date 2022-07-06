@@ -1,19 +1,12 @@
-
 import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
-
 import Select from "@mui/material/Select";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
-
 import InputAdornment from "@mui/material/InputAdornment";
-
 import TextField from "@mui/material/TextField";
-
 import SearchIcon from "@mui/icons-material/Search";
-
 import data from "./employee.json";
-
 import "./App.css";
 import { Grid, Checkbox } from "@mui/material";
 import practi from "./practitioners.json";
@@ -24,56 +17,73 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 export default function App() {
   const [selectedOption, setSelectedOption] = useState([]);
   const [dateValue, setDateValue] = useState(null);
-  const [result, setResult] = useState("")
+  const [result, setResult] = useState("");
 
   const [searchText, setSearchText] = useState("");
 
+  var allData = [...data, ...practi];
   // const containsText = (text, searchText) =>
   //   text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+  
+
 
   const handleChange = (event) => {
-    console.log("ffffgg")
     const value = event.target.value;
-    console.log(value);
+
+    // if (value[0] === "all") {
+    //   setSelectedOption(
+    //     selectedOption.length === allData.length ? [] : allData
+    //   );
 
     if (value[value.length - 1] === "all") {
-      setSelectedOption(selectedOption.length === data.length ? [] : data);
+      setSelectedOption(
+        selectedOption.length === allData.length ? [] : allData
+      );
+
+    
       return;
     }
     if (value[value.length - 1] === "all-practitioners") {
-      setSelectedOption(selectedOption.length === practi.length ? [] : practi);
+      setSelectedOption(selectedOption.length === practi.length ? [] : practi );
+      return;
+    
+    }
+    if (practi.find((p) => p.name === value[value.length - 1])) {
+      setSelectedOption(value);
+      console.log(typeof(value))
+      allData.map((el)=>console.log(typeof(el.name)))
+
+
+      return;
+    }
+    if (value[value.length - 1] === "all-assistant") {
+      setSelectedOption(["all-assistant"]);
       return;
     }
     console.log("aa", value);
     setSelectedOption(value);
   };
-  const displayedOptions = (searchText)=>{
-    let filterResult = data.filter((option) => option.name.toLowerCase().includes(searchText.toLowerCase()) ?  option.name : "")
-    setResult(filterResult)
-    console.log(filterResult)
+  const displayedOptions = (searchText) => {
+    let filterResult = allData.filter((option) =>
+      option.name.toLowerCase().includes(searchText.toLowerCase())
+        ? option.name
+        : ""
+    );
+    setResult(filterResult);
+    console.log(filterResult);
+  };
 
-  }
-    
-  
-
-  const isAllSelected =
-    data.length > 0 && selectedOption.length === data.length;
-
-  const isAllpractiSelected =
-    practi.length > 0 && selectedOption.length === practi.length;
-
-    const handleSearch = (e) =>{
-      console.log(e.target.value)
-      // searchText= e.target.value;
-      if(e.target.value===""){
-        setSearchText("");
-        setResult("");
-      }else{
-        setSearchText(e.target.value)
-        displayedOptions(searchText);
-
-      }
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    // searchText= e.target.value;
+    if (e.target.value === "") {
+      setSearchText("");
+      setResult("");
+    } else {
+      setSearchText(e.target.value);
+      displayedOptions(searchText);
     }
+  };
 
   return (
     <div>
@@ -83,7 +93,6 @@ export default function App() {
 
           <div>
             <Select
-              // Disables auto focus on MenuItems and allows TextField to be in focus
               className="dropDown"
               MenuProps={{ autoFocus: false }}
               labelId="search-select-label"
@@ -94,102 +103,123 @@ export default function App() {
               onClose={() => setSearchText("")}
               renderValue={(selec) => (
                 <div style={{ display: "flex" }}>
-                  <AvatarGroup style={{marginTop:"8px"}} max={2}>
+                  <AvatarGroup style={{ marginTop: "8px" }} max={2}>
                     {selec.map((el) => (
-                      <Avatar   key={el.id} alt={el.name} />
+                      <>
+                        <Avatar key={el.id} alt={el.name} src={el.img} />
+                      </>
                     ))}
                   </AvatarGroup>
-                  <p style={{color:"#314363"}} >All employee</p>
+                  <p style={{ color: "#314363" }}>
+                    {selectedOption.length === allData.length
+                      ? "All employees"
+                      : ""}{" "}
+                    {selectedOption.length === practi.length
+                      ? " All practitioners"
+                      : ""}
+                  </p>
                 </div>
               )}
             >
               {/* <div className="backGround"> */}
-             
-                <MenuItem>
-                  <TextField
-                    // Autofocus on textfield
-                    autoFocus
-                    className="input"
-                    placeholder="Search employee..."
-                    fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    onChange={(e) => handleSearch(e)}
-                    onKeyDown={(e) => {
-                      if (e.key !== "Escape") {
-                        e.stopPropagation();
-                      }
-                    }}
-                  />
-                </MenuItem>
-                {
-                result.length > 0 ? result.map((el)=><MenuItem key={el.id} value={el.name} >{result[0].name}</MenuItem>) : ""
-              }
-                <MenuItem value="all">
-                  {
-                    <AvatarGroup max={2}>
-                      {data.map((el) => (
-                        <Avatar src={el.img} key={el.id} alt={el.name} />
-                      ))}
-                    </AvatarGroup>
-                  }
-                  <p className="empName">All employee</p>
-                  <Checkbox
-                    style={{ position: "absolute", marginLeft: "308px" }}
-                    checked={isAllSelected}
-                    indeterminate={
-                      selectedOption.length > 0 &&
-                      selectedOption.length < data.length
-                    }
-                  />
-                </MenuItem>
-                <MenuItem value="all-practitioners">
-                  <p> All practitioners</p>
-                  <Checkbox
-                    style={{ position: "absolute", marginLeft: "308px" }}
-                    checked={isAllpractiSelected}
-                    indeterminate={
-                      selectedOption.length > 0 &&
-                      selectedOption.length < practi.length
-                    }
-                  />
-                </MenuItem>
 
-                {practi.map((el) => (
-                  <>
-                    <MenuItem className="practi" key={el.id} value={el.name}>
-                   
-                      <Avatar key={el.id} alt={el.img} />
-                      <p style={{ marginLeft: "16px" }}>{el.name}</p>
-                      <Checkbox
-                        style={{ position: "absolute", marginLeft: "308px" }}
-                        checked={isAllpractiSelected}
-                        indeterminate={
-                          selectedOption.length > 0 &&
-                          selectedOption.length < practi.length
-                        }
-                      />
+              <MenuItem>
+                <TextField
+                  // Autofocus on textfield
+                  autoFocus
+                  className="input"
+                  placeholder="Search employee..."
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => handleSearch(e)}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Escape") {
+                      e.stopPropagation();
+                    }
+                  }}
+                />
+              </MenuItem>
+              {result.length > 0
+                ? result.map((el) => (
+                    <MenuItem key={el.id} value={el.name}>
+                      {result[0].name}
                     </MenuItem>
-                  </>
-                ))}
-                <MenuItem value="all-practitioners">
-                  <p> All assistants</p>
-                  <Checkbox
-                    style={{ position: "absolute", marginLeft: "308px" }}
-                    checked={isAllpractiSelected}
-                    indeterminate={
-                      selectedOption.length > 0 &&
-                      selectedOption.length < practi.length
-                    }
-                  />
-                </MenuItem>
+                  ))
+                : ""}
+              <MenuItem value="all">
+                {
+                  <AvatarGroup max={2}>
+                    {allData.map((el) => (
+                      <Avatar src={el.img} key={el.id} alt={el.name} />
+                    ))}
+                  </AvatarGroup>
+                }
+                <p className="empName">All employee</p>
+                <Checkbox
+                  style={{ position: "absolute", marginLeft: "308px" }}
+                  checked={selectedOption.length === allData.length}
 
-                
+                  // indeterminate={
+                  //   selectedOption.length > 0 &&
+                  //   selectedOption.length < allData.length
+                  // }
+                />
+              </MenuItem>
+              <MenuItem value="all-practitioners">
+                <p> All practitioners</p>
+                <Checkbox
+                  style={{ position: "absolute", marginLeft: "308px" }}
+                  checked={
+                    selectedOption.length === practi.length ||
+                    selectedOption.length === allData.length
+                  }
+                  // indeterminate={
+                  //   selectedOption.length > 0 &&
+                  //   selectedOption.length < practi.length
+                  // }
+                />
+              </MenuItem>
+
+              {practi.map((el) => {
+                return (
+                  <MenuItem className="practi" key={el.id} value={el.name}>
+                    <Avatar key={el.id} alt={el.name} src={el.img}/>
+                    <p style={{ marginLeft: "16px" }}>{el.name}</p>
+                    <Checkbox
+                      style={{ position: "absolute", marginLeft: "308px" }}
+                      checked={
+                        selectedOption.length === practi.length ||
+                        selectedOption.length === allData.length
+                          ? selectedOption.length === practi.length ||
+                            selectedOption.length === allData.length
+                          : selectedOption[0] === el.name
+                      }
+                      // indeterminate={
+                      //   selectedOption.length > 0 &&
+                      //   selectedOption.length < practi.length
+                      // }
+                    />
+                  </MenuItem>
+                );
+              })}
+              <MenuItem value="all-assistant">
+                <p> All assistants</p>
+                <Checkbox
+                  style={{ position: "absolute", marginLeft: "308px" }}
+                  checked={selectedOption[0] === "all-assistant"}
+                  // indeterminate={
+                  //   selectedOption.length > 0 &&
+                  //   selectedOption.length < practi.length
+                  // }
+                />
+              </MenuItem>
+
               {/* </div> */}
             </Select>
           </div>

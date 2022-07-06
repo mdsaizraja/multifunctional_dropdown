@@ -1,5 +1,5 @@
 h2 {
-  position: absolute;
+
   width: 335px;
   height: 34px;
 
@@ -8,20 +8,20 @@ h2 {
   font-weight: 500;
   font-size: 24px;
   line-height: 140%;
-  margin-left: 52px;
+  margin-left: 25px;
   margin-top: 6.66px;
 }
 ::placeholder {
   font-size: 13px;
   font-weight: 400;
 
-  color: #6F8BBC;
+  
 }
 .dropDown {
-  margin-top: 60px;
-  margin-left: 30px;
+ 
+  margin-left: 10px;
+display: flex;
 
-  position: absolute;
   width: 376px;
   height: 54px;
   background: #f0f5fb;
@@ -107,5 +107,6 @@ p{
   width: 376px;
   border-radius: 16px !important;
   border: none;
+
 
 }

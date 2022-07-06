@@ -2,15 +2,15 @@
 [
     { "id":1,
         "name":"Dr. Siegfried Tausend",
-        "img":"/Users/mdraja/Desktop/dropdown/src/img/dr1.jpg"
+        "img":"./dr1.jpg"
     },
     { "id":2,
-        "name":"Tausend",
+        "name":"Dr. Xavier III",
         "img":"doc.png"
     },
     {
         "id":3,
-        "name":"Dr. Siegfried Tausend",
+        "name":"Tausend",
         "img":"doc.png"
     }
     , {
@@ -19,7 +19,7 @@
         "img":"doc.png"
     }, {
         "id":5,
-        "name":"Dr. Siegfried Tausend",
+        "name":"Dr abc ",
         "img":"doc.png"
     }, {
         "id":6,
@@ -27,7 +27,7 @@
         "img":"doc.png"
     }, {
         "id":7,
-        "name":"abc",
+        "name":"Dr xyz",
         "img":"./doc.png"
     }
        
